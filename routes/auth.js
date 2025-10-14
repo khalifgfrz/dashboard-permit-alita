@@ -5,7 +5,11 @@ const router = express.Router();
 
 // Menampilkan halaman login
 router.get("/login", (req, res) => {
-  res.render("login", { error: req.query.error });
+  let successMessage = null;
+  if (req.query.success) {
+    successMessage = "Registrasi berhasil! Silakan login.";
+  }
+  res.render("login", { error: req.query.error, success: successMessage });
 });
 
 // Menangani logika login
@@ -13,7 +17,9 @@ router.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    const result = await db.query("SELECT * FROM users WHERE email = $1", [email]);
+    const result = await db.query("SELECT * FROM users WHERE email = $1", [
+      email,
+    ]);
     if (result.rows.length > 0) {
       const user = result.rows[0];
       const isValid = await bcrypt.compare(password, user.password);
@@ -21,6 +27,7 @@ router.post("/login", async (req, res) => {
       if (isValid) {
         req.session.userId = user.id; // Simpan ID pengguna di session
         req.session.userName = user.name;
+        req.session.userRole = user.role;
         return res.redirect("/dashboard");
       }
     }
@@ -42,20 +49,39 @@ router.get("/logout", (req, res) => {
   });
 });
 
-// Catatan: Anda juga memerlukan rute dan halaman registrasi
-// untuk membuat pengguna dan melakukan hash pada password mereka dengan bcrypt.
-// Contoh untuk membuat pengguna (jalankan ini sekali secara manual atau buat halaman registrasi):
-/*
-const saltRounds = 10;
-const plainPassword = 'adminpassword';
-bcrypt.hash(plainPassword, saltRounds, async (err, hash) => {
-    if (err) console.error(err);
-    // Simpan hash ini di database Anda
-    // await db.query(
-    //     'INSERT INTO users (name, email, password) VALUES ($1, $2, $3)',
-    //     ['Admin Permit', 'admin@alita.com', hash]
-    // );
+router.get("/register", (_, res) => {
+  res.render("register", { error: null });
 });
-*/
+
+router.post("/register", async (req, res) => {
+  const { name, email, password, confirmPassword } = req.body;
+
+  if (password !== confirmPassword) {
+    return res.render("register", { error: "Password tidak cocok." });
+  }
+
+  try {
+    const existingUser = await db.query(
+      "SELECT * FROM users WHERE email = $1",
+      [email]
+    );
+    if (existingUser.rows.length > 0) {
+      return res.render("register", { error: "Email sudah terdaftar." });
+    }
+
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+    await db.query(
+      "INSERT INTO users (name, email, password, role) VALUES ($1, $2, $3, $4)",
+      [name, email, hashedPassword, "requester"]
+    );
+
+    res.redirect("/login?success=true");
+  } catch (err) {
+    console.error(err);
+    res.render("register", { error: "Terjadi kesalahan saat registrasi." });
+  }
+});
 
 module.exports = router;

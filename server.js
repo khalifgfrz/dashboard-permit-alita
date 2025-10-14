@@ -15,6 +15,7 @@ app.set("views", path.join(__dirname, "views"));
 // Middleware
 app.use(express.static(path.join(__dirname, "public"))); // Menyajikan file statis (CSS, JS)
 app.use(express.urlencoded({ extended: true })); // Mem-parsing data formulir
+app.use(express.json());
 
 // Manajemen session
 app.use(

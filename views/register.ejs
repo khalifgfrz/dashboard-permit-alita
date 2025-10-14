@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Alita Permit Center — Register</title>
+    <link rel="stylesheet" href="/css/register.css" />
+  </head>
+  <body>
+    <div class="bg" aria-hidden="true"></div>
+    <div class="overlay" aria-hidden="true"></div>
+    <main>
+      <section class="card" role="dialog" aria-labelledby="register-title">
+        <header class="brand" aria-label="Brand">
+          <div class="wordmark" aria-hidden="true">
+            al<span class="i">i</span>ta
+          </div>
+          <div class="sub">Permit Center</div>
+        </header>
+        <h1 id="register-title">Create Account</h1>
+
+        <% if (typeof error !== 'undefined' && error) { %>
+        <p
+          style="
+            color: #d8000c;
+            background-color: #ffd2d2;
+            text-align: center;
+            padding: 5px;
+            border-radius: 5px;
+          "
+        >
+          <%= error %>
+        </p>
+        <% } %>
+        <p class="hint">Please fill in the details below</p>
+        <form id="registerForm" action="/register" method="post">
+          <div class="field">
+            <label for="name">Full Name</label>
+            <input
+              class="input"
+              id="name"
+              name="name"
+              type="text"
+              placeholder="Your Name"
+              required
+            />
+          </div>
+          <div class="field">
+            <label for="email">Email</label>
+            <input
+              class="input"
+              id="email"
+              name="email"
+              type="email"
+              placeholder="you@example.com"
+              required
+            />
+          </div>
+          <div class="field">
+            <label for="password">Password</label>
+            <input
+              class="input"
+              id="password"
+              name="password"
+              type="password"
+              placeholder="••••••••"
+              required
+            />
+          </div>
+          <div class="field">
+            <label for="confirmPassword">Confirm Password</label>
+            <input
+              class="input"
+              id="confirmPassword"
+              name="confirmPassword"
+              type="password"
+              placeholder="••••••••"
+              required
+            />
+          </div>
+          <div class="actions">
+            <button class="btn" type="submit">Register</button>
+          </div>
+        </form>
+        <div class="register-link" style="text-align: center; margin-top: 20px">
+          <p>
+            Sudah punya akun?
+            <a
+              href="/login"
+              style="
+                color: var(--brand);
+                text-decoration: none;
+                font-weight: 600;
+              "
+              >Login di sini</a
+            >
+          </p>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

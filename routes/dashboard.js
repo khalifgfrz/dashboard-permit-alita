@@ -11,24 +11,64 @@ const isAuth = (req, res, next) => {
   }
 };
 
+const isAdmin = (req, res, next) => {
+  if (req.session.userRole === "admin") {
+    return next();
+  }
+  res.redirect("/dashboard");
+};
+
 // Menampilkan dasbor dengan data permit
 router.get("/dashboard", isAuth, async (req, res) => {
   try {
-    // Ambil semua permit untuk ditampilkan di tracker
-    const result = await db.query("SELECT * FROM permits ORDER BY created_at DESC");
+    let result;
+    // Jika yang login adalah admin, tampilkan SEMUA permit
+    if (req.session.userRole === "admin") {
+      result = await db.query("SELECT * FROM permits ORDER BY created_at DESC");
+    } else {
+      // Jika pengguna biasa, tampilkan permit miliknya saja
+      const currentUserId = req.session.userId;
+      result = await db.query(
+        "SELECT * FROM permits WHERE user_id = $1 ORDER BY created_at DESC",
+        [currentUserId]
+      );
+    }
+
     res.render("dashboard", {
       user: { name: req.session.userName },
       permits: result.rows,
+      userRole: req.session.userRole, // Kirim role ke frontend
     });
   } catch (err) {
     console.error(err);
-    res.status(500).send("Gagal mengambil data permit.");
+    res.status(500).send("Error fetching permit data.");
   }
 });
 
 // Menangani pengiriman formulir permintaan permit baru
 router.post("/request-permit", isAuth, async (req, res) => {
-  const { permitType, Lps, Aep, Vendor, Ntw, Ldp, Sd, FD, projectName, systemKey, regional, provinsi, scopePekerjaan, siteIdNE, siteNameNE, towerProviderNE, siteIdFE, siteNameFE, towerProviderFE, picOnsite } = req.body;
+  const {
+    permitType,
+    Lps,
+    Aep,
+    Vendor,
+    Ntw,
+    Ldp,
+    Sd,
+    FD,
+    projectName,
+    systemKey,
+    regional,
+    provinsi,
+    scopePekerjaan,
+    siteIdNE,
+    siteNameNE,
+    towerProviderNE,
+    siteIdFE,
+    siteNameFE,
+    towerProviderFE,
+    picOnsite,
+  } = req.body;
 
   // Membuat ID tiket unik
   const ticketCountResult = await db.query("SELECT COUNT(*) FROM permits");
@@ -75,6 +115,28 @@ router.post("/request-permit", isAuth, async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).send("Gagal mengirimkan permintaan permit.");
+  }
+});
+
+router.post("/permit/update/:id", isAuth, isAdmin, async (req, res) => {
+  try {
+    const permitId = req.params.id;
+    // Ambil data 'status' dan 'link' yang dikirim oleh JavaScript
+    const { status, final_permit_link } = req.body;
+
+    await db.query(
+      "UPDATE permits SET status = $1, final_permit_link = $2, updated_at = NOW() WHERE id = $3",
+      [status, final_permit_link, permitId]
+    );
+
+    // Kirim balasan sukses dalam format JSON ke JavaScript
+    res.json({ success: true, message: "Permit updated successfully." });
+  } catch (err) {
+    console.error(err);
+    // Kirim balasan error jika gagal
+    res
+      .status(500)
+      .json({ success: false, message: "Failed to update permit." });
   }
 });
 
