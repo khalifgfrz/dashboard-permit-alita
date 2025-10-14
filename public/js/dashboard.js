@@ -1,22 +1,28 @@
 document.addEventListener("DOMContentLoaded", () => {
   // Fungsi untuk beralih antar tab (Request Form & Tracker)
-  const buttons = document.querySelectorAll(".nav-btn[data-target]");
-  const sections = document.querySelectorAll(".section");
+  const buttons = Array.from(document.querySelectorAll(".nav-btn[data-target]"));
+  const sections = Array.from(document.querySelectorAll(".section"));
 
   function setActive(targetId) {
-    buttons.forEach((btn) =>
-      btn.setAttribute("aria-current", btn.dataset.target === targetId)
-    );
-    sections.forEach((sec) =>
-      sec.classList.toggle("active", sec.id === targetId)
-    );
+    buttons.forEach((btn) => {
+      const isActive = btn.dataset.target === targetId;
+      btn.setAttribute("aria-current", isActive ? "page" : "false");
+    });
+    sections.forEach((sec) => {
+      sec.classList.toggle("active", sec.id === targetId);
+    });
+    document.getElementById("content").focus({ preventScroll: false });
+    document.body.classList.remove("sidebar-open");
+    document.getElementById("sidebarToggle").setAttribute("aria-expanded", "false");
   }
 
   buttons.forEach((btn) => {
     btn.addEventListener("click", () => setActive(btn.dataset.target));
+    btn.addEventListener("keyup", (e) => {
+      if (e.key === "Enter" || e.key === " ") setActive(btn.dataset.target);
+    });
   });
 
-  // Fungsi untuk mobile sidebar
   const toggle = document.getElementById("sidebarToggle");
   if (toggle) {
     toggle.addEventListener("click", () => {
@@ -26,7 +32,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Gunakan event delegation untuk menangani klik pada tombol yang mungkin belum ada saat halaman dimuat
   const tableBody = document.querySelector("table tbody");
   if (!tableBody) return;
 
@@ -70,15 +75,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const currentStatusText = statusCell.innerText.trim();
     statusCell.innerHTML = `
             <select id="select-status-${id}" style="padding: 5px; border-radius: 5px;">
-                <option value="Pending" ${
-                  currentStatusText === "Pending" ? "selected" : ""
-                }>Pending</option>
-                <option value="Approved" ${
-                  currentStatusText === "Approved" ? "selected" : ""
-                }>Approved</option>
-                <option value="Rejected" ${
-                  currentStatusText === "Rejected" ? "selected" : ""
-                }>Rejected</option>
+                <option value="Pending" ${currentStatusText === "Pending" ? "selected" : ""}>Pending</option>
+                <option value="Approved" ${currentStatusText === "Approved" ? "selected" : ""}>Approved</option>
+                <option value="Rejected" ${currentStatusText === "Rejected" ? "selected" : ""}>Rejected</option>
             </select>
         `;
 
