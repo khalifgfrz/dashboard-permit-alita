@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Alita Permit Center — Main Menu</title>
+    <link rel="stylesheet" href="/css/dashboard.css" />
+  </head>
+  <body>
+    <button class="toggle" aria-controls="sidebar" aria-expanded="false" id="sidebarToggle">☰ Menu</button>
+    <div class="app">
+      <aside id="sidebar" aria-label="Primary">
+        <div class="brand" aria-label="Alita Permit Center">
+          <h1>ali<span class="dot">t</span>a</h1>
+          <small>Permit Center</small>
+        </div>
+        <p class="welcome">Welcome, <b><%= user.name %></b></p>
+        <nav>
+          <ul>
+            <li>
+              <button class="nav-btn" data-target="request">
+                <svg class="icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M4 3h12l4 4v14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm11 1H4v18h16V8h-5V4z" />
+                  <path d="M7 10h10v2H7zm0 4h10v2H7zm0 4h7v2H7z" />
+                </svg>
+                <span>Permit Request Form</span>
+              </button>
+            </li>
+            <li>
+              <button class="nav-btn" data-target="tracker" aria-current="page">
+                <svg class="icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M9 2h6a2 2 0 0 1 2 2h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2a2 2 0 0 1 2-2zm6 2H9v2h6V4z" />
+                  <path d="M7 10h10v2H7zm0 4h10v2H7z" />
+                </svg>
+                <span>Permit Tracker</span>
+              </button>
+            </li>
+          </ul>
+          <ul class="logout">
+            <li>
+              <a class="nav-btn" href="/logout">
+                <svg class="icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M10 17l1.41-1.41L8.83 13H21v-2H8.83l2.58-2.59L10 7l-5 5 5 5z" />
+                  <path d="M3 3h8v2H5v14h6v2H3z" />
+                </svg>
+                <span>Logout</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </aside>
+      <main id="content" tabindex="-1">
+        <section id="request" class="section" role="region" aria-labelledby="h-request">
+          <h2 id="h-request" class="page-title">Permit Request Form</h2>
+          <p class="subtle">Buat permohonan baru.</p>
+          <form action="/request-permit" method="post" style="max-width: 560px; display: grid; gap: 14px">
+            <label>
+              <span>Permit Type</span><br />
+              <div class="select-wrapper">
+                <select name="permitType" required style="width: 100%; padding: 12px 14px; border-radius: 12px; border: 1px solid #cfcfcf">
+                  <option value="">Choose…</option>
+                  <option value="New Request">New Request</option>
+                  <option value="Extend">Extend</option>
+                </select>
+              </div>
+            </label>
+            <label>
+              <span>Link Permit Sebelumnya</span><br />
+              <input type="text" name="Lps" style="width: 100%; padding: 12px 14px; border-radius: 12px; border: 1px solid #cfcfcf" />
+            </label>
+            <label>
+              <span>Alasan Extend Permit</span><br />
+              <input type="text" name="Aep" style="width: 100%; padding: 12px 14px; border-radius: 12px; border: 1px solid #cfcfcf" />
+            </label>
+            <label>
+              <span>Nama Vendor/Subcontractor</span><br />
+              <input type="text" name="Vendor" required style="width: 100%; padding: 12px 14px; border-radius: 12px; border: 1px solid #cfcfcf" />
+            </label>
+            <label>
+              <span>No. Telp (Whatsapp)</span><br />
+              <input type="text" name="Ntw" required style="width: 100%; padding: 12px 14px; border-radius: 12px; border: 1px solid #cfcfcf" />
+            </label>
+            <label>
+              <span>Link Data PIC</span><br />
+              <input type="text" name="Ldp" required style="width: 100%; padding: 12px 14px; border-radius: 12px; border: 1px solid #cfcfcf" />
+            </label>
+            <label>
+              <span>Start Date</span><br />
+              <input type="date" name="Sd" required style="width: 100%; padding: 12px 14px; border-radius: 12px; border: 1px solid #cfcfcf" />
+            </label>
+            <label>
+              <span>Finish Date</span><br />
+              <input type="date" name="FD" required style="width: 100%; padding: 12px 14px; border-radius: 12px; border: 1px solid #cfcfcf" />
+            </label>
+            <label>
+              <span>Project Name</span><br />
+              <input type="text" name="projectName" required style="width: 100%; padding: 12px 14px; border-radius: 12px; border: 1px solid #cfcfcf" />
+            </label>
+            <label>
+              <span>SYSTEMKEY/TPDID</span><br />
+              <input type="text" name="systemKey" required style="width: 100%; padding: 12px 14px; border-radius: 12px; border: 1px solid #cfcfcf" />
+            </label>
+            <label>
+              <span>Regional</span><br />
+              <input type="text" name="regional" required style="width: 100%; padding: 12px 14px; border-radius: 12px; border: 1px solid #cfcfcf" />
+            </label>
+            <label>
+              <span>Provinsi</span><br />
+              <input type="text" name="provinsi" required style="width: 100%; padding: 12px 14px; border-radius: 12px; border: 1px solid #cfcfcf" />
+            </label>
+            <label>
+              <span>Scope Pekerjaan</span><br />
+              <input type="text" name="scopePekerjaan" required style="width: 100%; padding: 12px 14px; border-radius: 12px; border: 1px solid #cfcfcf" />
+            </label>
+            <label>
+              <span>Site ID (NE)</span><br />
+              <input type="text" name="siteIdNE" required style="width: 100%; padding: 12px 14px; border-radius: 12px; border: 1px solid #cfcfcf" />
+            </label>
+            <label>
+              <span>Site Name (NE)</span><br />
+              <input type="text" name="siteNameNE" required style="width: 100%; padding: 12px 14px; border-radius: 12px; border: 1px solid #cfcfcf" />
+            </label>
+            <label>
+              <span>Tower Provider (TLP NE)</span><br />
+              <div class="select-wrapper">
+                <select name="towerProviderNE" required style="width: 100%; padding: 12px 14px; border-radius: 12px; border: 1px solid #cfcfcf">
+                  <option value="">Choose…</option>
+                  <option value="Tower Provider A">Tower Provider A</option>
+                  <option value="Tower Provider B">Tower Provider B</option>
+                </select>
+              </div>
+            </label>
+            <label>
+              <span>Site ID (FE)</span><br />
+              <input type="text" name="siteIdFE" style="width: 100%; padding: 12px 14px; border-radius: 12px; border: 1px solid #cfcfcf" />
+            </label>
+            <label>
+              <span>Site Name (FE)</span><br />
+              <input type="text" name="siteNameFE" style="width: 100%; padding: 12px 14px; border-radius: 12px; border: 1px solid #cfcfcf" />
+            </label>
+            <label>
+              <span>Tower Provider (TLP FE)</span><br />
+              <div class="select-wrapper">
+                <select name="towerProviderFE" style="width: 100%; padding: 12px 14px; border-radius: 12px; border: 1px solid #cfcfcf">
+                  <option value="">Choose…</option>
+                  <option value="Tower Provider A">Tower Provider A</option>
+                  <option value="Tower Provider B">Tower Provider B</option>
+                </select>
+              </div>
+            </label>
+            <label>
+              <span>PIC Onsite</span><br />
+              <input type="text" name="picOnsite" required style="width: 100%; padding: 12px 14px; border-radius: 12px; border: 1px solid #cfcfcf" />
+            </label>
+            <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 6px">
+              <button type="reset" style="background: #eeeeee; border: 0; padding: 10px 14px; border-radius: 10px; cursor: pointer">Reset</button>
+              <button type="submit" style="background: var(--brand); color: #fff; border: 0; padding: 10px 16px; border-radius: 999px; cursor: pointer">Submit</button>
+            </div>
+          </form>
+        </section>
+
+        <section id="tracker" class="section active" role="region" aria-labelledby="h-tracker">
+          <h2 id="h-tracker" class="page-title">Permit Tracker</h2>
+          <p class="subtle">Lacak status permohonan.</p>
+
+          <div style="overflow: auto">
+            <table style="width: 100%; border-collapse: separate; border-spacing: 0 10px">
+              <thead>
+                <tr style="text-align: left; color: var(--muted); font-weight: 600">
+                  <th style="padding: 10px 12px">Ticket</th>
+                  <th style="padding: 10px 12px">Type Permit</th>
+                  <th style="padding: 10px 12px">System KEY/TPDID</th>
+                  <th style="padding: 10px 12px">Status</th>
+                  <th style="padding: 10px 12px">Link Permit</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% if (permits.length > 0) { %> <% permits.forEach(permit => { %>
+                <tr style="background: #f7f7f7">
+                  <td style="padding: 12px"><%= permit.ticket_id %></td>
+                  <td style="padding: 12px"><%= permit.permit_type %></td>
+                  <td style="padding: 12px"><%= permit.system_key %></td>
+                  <td style="padding: 12px">
+                    <% if (permit.status === 'Pending') { %>
+                    <span style="background: #ffe9d8; color: var(--brand); padding: 4px 8px; border-radius: 999px">Pending</span><% } else if (permit.status === 'Approved') { %><span
+                      style="background: #e5f6ed; color: #198754; padding: 4px 8px; border-radius: 999px"
+                    >
+                      Approved
+                    </span>
+                    <% } else { %>
+                    <span style="background: #f8d7da; color: #721c24; padding: 4px 8px; border-radius: 999px"> <%= permit.status %> </span> <% } %>
+                  </td>
+                  <td style="padding: 12px"><% if (permit.final_permit_link) { %> <a href="<%= permit.final_permit_link %>" target="_blank">Klik Disini</a> <% } else { %> - <% } %></td>
+                </tr>
+
+                <% }) %> <% } else { %>
+                <tr>
+                  <td colspan="5" style="text-align: center; padding: 20px">Belum ada data permohonan.</td>
+                </tr>
+                <% } %>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+    </div>
+    <script src="js/dashboard.js"></script>
+  </body>
+</html>
