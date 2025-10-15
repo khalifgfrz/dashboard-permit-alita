@@ -17,9 +17,7 @@ router.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    const result = await db.query("SELECT * FROM users WHERE email = $1", [
-      email,
-    ]);
+    const result = await db.query("SELECT * FROM users WHERE email = $1", [email]);
     if (result.rows.length > 0) {
       const user = result.rows[0];
       const isValid = await bcrypt.compare(password, user.password);
@@ -61,10 +59,7 @@ router.post("/register", async (req, res) => {
   }
 
   try {
-    const existingUser = await db.query(
-      "SELECT * FROM users WHERE email = $1",
-      [email]
-    );
+    const existingUser = await db.query("SELECT * FROM users WHERE email = $1", [email]);
     if (existingUser.rows.length > 0) {
       return res.render("register", { error: "Email sudah terdaftar." });
     }
@@ -72,10 +67,7 @@ router.post("/register", async (req, res) => {
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-    await db.query(
-      "INSERT INTO users (name, email, password, role) VALUES ($1, $2, $3, $4)",
-      [name, email, hashedPassword, "requester"]
-    );
+    await db.query("INSERT INTO users (name, email, password, role) VALUES ($1, $2, $3, $4)", [name, email, hashedPassword, "requester"]);
 
     res.redirect("/login?success=true");
   } catch (err) {
