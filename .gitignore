@@ -63,3 +63,4 @@ public/storage
 .idea
 cred.json
 .github
+.vercel
