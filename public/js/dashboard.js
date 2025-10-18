@@ -1,6 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
   // Fungsi untuk beralih antar tab (Request Form & Tracker)
-  const buttons = Array.from(document.querySelectorAll(".nav-btn[data-target]"));
+  const buttons = Array.from(
+    document.querySelectorAll(".nav-btn[data-target]")
+  );
   const sections = Array.from(document.querySelectorAll(".section"));
 
   function setActive(targetId) {
@@ -13,7 +15,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     document.getElementById("content").focus({ preventScroll: false });
     document.body.classList.remove("sidebar-open");
-    document.getElementById("sidebarToggle").setAttribute("aria-expanded", "false");
+    document
+      .getElementById("sidebarToggle")
+      .setAttribute("aria-expanded", "false");
   }
 
   buttons.forEach((btn) => {
@@ -55,6 +59,12 @@ document.addEventListener("DOMContentLoaded", () => {
       const permitId = target.dataset.id;
       handleCancel(permitId);
     }
+
+    // Jika tombol 'Delete' yang di-klik
+    if (target.classList.contains("delete-btn")) {
+      const permitId = target.dataset.id;
+      handleDelete(permitId);
+    }
   });
 
   // Variabel global untuk menyimpan data asli saat mode edit
@@ -75,9 +85,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const currentStatusText = statusCell.innerText.trim();
     statusCell.innerHTML = `
             <select id="select-status-${id}" style="padding: 5px; border-radius: 5px;">
-                <option value="Pending" ${currentStatusText === "Pending" ? "selected" : ""}>Pending</option>
-                <option value="Approved" ${currentStatusText === "Approved" ? "selected" : ""}>Approved</option>
-                <option value="Rejected" ${currentStatusText === "Rejected" ? "selected" : ""}>Rejected</option>
+                <option value="Pending" ${
+                  currentStatusText === "Pending" ? "selected" : ""
+                }>Pending</option>
+                <option value="Approved" ${
+                  currentStatusText === "Approved" ? "selected" : ""
+                }>Approved</option>
+                <option value="Rejected" ${
+                  currentStatusText === "Rejected" ? "selected" : ""
+                }>Rejected</option>
             </select>
         `;
 
@@ -159,5 +175,36 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Kembalikan tombol ke 'Edit'
     actionsCell.innerHTML = `<button class="edit-btn" data-id="${id}" style="color: #007bff; text-decoration: none; background: none; border: none; cursor: pointer;">Edit</button>`;
+  }
+
+  async function handleDelete(id) {
+    if (
+      !confirm(
+        `Apakah Anda yakin ingin menghapus permit dengan ID ${id}? Aksi ini tidak bisa dibatalkan.`
+      )
+    ) {
+      return;
+    }
+
+    try {
+      const response = await fetch(`/permit/delete/${id}`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        const rowToRemove = document.getElementById(`row-${id}`);
+        if (rowToRemove) {
+          rowToRemove.remove();
+        }
+      } else {
+        alert("Gagal menghapus permit: " + result.message);
+      }
+    } catch (error) {
+      console.error("Error deleting permit:", error);
+      alert("Terjadi kesalahan saat mencoba menghapus. Coba lagi.");
+    }
   }
 });

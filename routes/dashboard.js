@@ -171,4 +171,25 @@ router.get("/permit/details/:id", isAuth, async (req, res) => {
   }
 });
 
+router.delete("/permit/delete/:id", isAuth, isAdmin, async (req, res) => {
+  try {
+    const permitId = req.params.id;
+
+    const deleteResult = await db.query("DELETE FROM permits WHERE id = $1", [
+      permitId,
+    ]);
+
+    if (deleteResult.rowCount > 0) {
+      res.json({ success: true, message: "Permit deleted successfully." });
+    } else {
+      res.status(404).json({ success: false, message: "Permit not found." });
+    }
+  } catch (err) {
+    console.error("Error deleting permit:", err);
+    res
+      .status(500)
+      .json({ success: false, message: "Failed to delete permit." });
+  }
+});
+
 module.exports = router;
