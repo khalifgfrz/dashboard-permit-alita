@@ -140,4 +140,35 @@ router.post("/permit/update/:id", isAuth, isAdmin, async (req, res) => {
   }
 });
 
+router.get("/permit/details/:id", isAuth, async (req, res) => {
+  try {
+    const permitId = req.params.id;
+    const currentUserId = req.session.userId;
+    const currentUserRole = req.session.userRole;
+
+    const result = await db.query("SELECT * FROM permits WHERE id = $1", [
+      permitId,
+    ]);
+
+    if (result.rows.length === 0) {
+      console.log(`Permit with ID ${permitId} not found.`);
+      return res.redirect("/dashboard?error=Permit not found");
+    }
+
+    const permit = result.rows[0];
+
+    if (currentUserRole !== "admin" && permit.user_id !== currentUserId) {
+      console.log(
+        `User ${currentUserId} attempted to access permit ${permitId} owned by ${permit.user_id}`
+      );
+      return res.redirect("/dashboard?error=Access denied");
+    }
+
+    res.render("permit-details", { permit: permit });
+  } catch (err) {
+    console.error("Error fetching permit details:", err);
+    res.redirect("/dashboard?error=Failed to load details");
+  }
+});
+
 module.exports = router;

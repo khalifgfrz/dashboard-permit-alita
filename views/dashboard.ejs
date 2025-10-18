@@ -453,7 +453,7 @@
               <tbody>
                 <% if (permits.length > 0) { %> <% permits.forEach(permit => {
                 %>
-                <tr style="background: #f7f7f7">
+                <tr id="row-<%= permit.id %>" style="background: #f7f7f7">
                   <td style="padding: 12px"><%= permit.ticket_id %></td>
                   <td style="padding: 12px"><%= permit.permit_type %></td>
                   <td style="padding: 12px"><%= permit.system_key %></td>
@@ -497,7 +497,19 @@
                     >
                     <% } else { %> - <% } %>
                   </td>
-                  <% if (userRole === 'admin') { %>
+                  <td id="actions-<%= permit.id %>" style="padding: 12px">
+                    <a
+                      href="/permit/details/<%= permit.id %>"
+                      style="
+                        color: #17a2b8;
+                        text-decoration: none;
+                        margin-right: 10px;
+                      "
+                      >Details</a
+                    >
+                    <% if (userRole === 'admin') { %>
+                  </td>
+
                   <td id="actions-<%= permit.id %>" style="padding: 12px">
                     <button
                       class="edit-btn"

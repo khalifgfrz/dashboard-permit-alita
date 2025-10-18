@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Permit Details - <%= permit.ticket_id %></title>
+    <link rel="stylesheet" href="/css/dashboard.css" />
+    <link rel="stylesheet" href="/css/permit-details.css" />
+  </head>
+  <body>
+    <div class="details-container">
+      <a href="/dashboard" class="back-link">← Back to Dashboard</a>
+      <h1>Permit Details: <%= permit.ticket_id %></h1>
+
+      <div class="details-grid">
+        <div class="detail-item">
+          <strong>Status:</strong> <span><%= permit.status %></span>
+        </div>
+        <div class="detail-item">
+          <strong>Permit Type:</strong> <span><%= permit.permit_type %></span>
+        </div>
+        <div class="detail-item">
+          <strong>Project Name:</strong> <span><%= permit.project_name %></span>
+        </div>
+        <div class="detail-item">
+          <strong>SYSTEMKEY/TPDID:</strong>
+          <span><%= permit.system_key %></span>
+        </div>
+        <div class="detail-item">
+          <strong>Regional:</strong> <span><%= permit.regional %></span>
+        </div>
+        <div class="detail-item">
+          <strong>Provinsi:</strong> <span><%= permit.province %></span>
+        </div>
+        <div class="detail-item">
+          <strong>Start Date:</strong>
+          <span
+            ><%= new Date(permit.start_date).toLocaleDateString('id-ID')
+            %></span
+          >
+        </div>
+        <div class="detail-item">
+          <strong>Finish Date:</strong>
+          <span
+            ><%= new Date(permit.finish_date).toLocaleDateString('id-ID')
+            %></span
+          >
+        </div>
+        <div class="detail-item">
+          <strong>Vendor Name:</strong> <span><%= permit.vendor_name %></span>
+        </div>
+        <div class="detail-item">
+          <strong>Vendor Phone:</strong> <span><%= permit.vendor_phone %></span>
+        </div>
+        <div class="detail-item">
+          <strong>PIC Onsite:</strong> <span><%= permit.pic_onsite %></span>
+        </div>
+        <div class="detail-item">
+          <strong>Link Data PIC:</strong>
+          <span
+            ><a href="<%= permit.pic_data_link %>" target="_blank"
+              >Lihat Data</a
+            ></span
+          >
+        </div>
+        <div class="detail-item">
+          <strong>Scope Pekerjaan:</strong>
+          <span><%= permit.work_scope %></span>
+        </div>
+
+        <% if (permit.permit_type === 'Extend') { %>
+        <div class="detail-item">
+          <strong>Link Permit Sebelumnya:</strong>
+          <span
+            ><a href="<%= permit.previous_permit_link %>" target="_blank"
+              >Lihat Link</a
+            ></span
+          >
+        </div>
+        <div class="detail-item">
+          <strong>Alasan Extend:</strong>
+          <span><%= permit.extend_reason %></span>
+        </div>
+        <% } %>
+
+        <div class="detail-item">
+          <strong>Site ID (NE):</strong> <span><%= permit.site_id_ne %></span>
+        </div>
+        <div class="detail-item">
+          <strong>Site Name (NE):</strong>
+          <span><%= permit.site_name_ne %></span>
+        </div>
+        <div class="detail-item">
+          <strong>Tower Provider (NE):</strong>
+          <span><%= permit.tower_provider_ne %></span>
+        </div>
+
+        <% if (permit.site_id_fe) { %>
+        <div class="detail-item">
+          <strong>Site ID (FE):</strong> <span><%= permit.site_id_fe %></span>
+        </div>
+        <div class="detail-item">
+          <strong>Site Name (FE):</strong>
+          <span><%= permit.site_name_fe %></span>
+        </div>
+        <div class="detail-item">
+          <strong>Tower Provider (FE):</strong>
+          <span><%= permit.tower_provider_fe %></span>
+        </div>
+        <% } %>
+
+        <div class="detail-item">
+          <strong>Final Permit Link:</strong>
+          <span>
+            <% if (permit.final_permit_link) { %>
+            <a href="<%= permit.final_permit_link %>" target="_blank"
+              >Klik Disini</a
+            >
+            <% } else { %> - <% } %>
+          </span>
+        </div>
+        <div class="detail-item">
+          <strong>Created At:</strong>
+          <span
+            ><%= new Date(permit.created_at).toLocaleString('id-ID') %></span
+          >
+        </div>
+        <div class="detail-item">
+          <strong>Last Updated:</strong>
+          <span
+            ><%= new Date(permit.updated_at).toLocaleString('id-ID') %></span
+          >
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
