@@ -14,7 +14,43 @@
 
       <div class="details-grid">
         <div class="detail-item">
-          <strong>Status:</strong> <span><%= permit.status %></span>
+          <strong>Status:</strong>
+          <span>
+            <% if (permit.status === 'Pending') { %>
+            <span
+              style="
+                background: #ffe9d8;
+                color: var(--brand);
+                padding: 4px 8px;
+                border-radius: 999px;
+              "
+            >
+              Pending
+            </span>
+            <% } else if (permit.status === 'Approved') { %>
+            <span
+              style="
+                background: #e5f6ed;
+                color: #198754;
+                padding: 4px 8px;
+                border-radius: 999px;
+              "
+            >
+              Approved
+            </span>
+            <% } else { %>
+            <span
+              style="
+                background: #f8d7da;
+                color: #721c24;
+                padding: 4px 8px;
+                border-radius: 999px;
+              "
+            >
+              <%= permit.status %>
+            </span>
+            <% } %>
+          </span>
         </div>
         <div class="detail-item">
           <strong>Permit Type:</strong> <span><%= permit.permit_type %></span>
