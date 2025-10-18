@@ -17,7 +17,8 @@ body {
 body {
   margin: 0;
   color: var(--fg);
-  font: 16px/1.55 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, sans-serif;
+  font: 16px/1.55 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell,
+    Noto Sans, "Helvetica Neue", Arial, sans-serif;
   display: grid;
   place-items: center;
   overflow: hidden;
@@ -27,7 +28,8 @@ body {
 .bg {
   position: fixed;
   inset: 0;
-  background: url("https://assets.promediateknologi.id/crop/0x0:0x0/750x500/webp/photo/2023/05/17/3-jenis-BTS-1371539794.jpg") center/cover no-repeat;
+  background: url("https://assets.promediateknologi.id/crop/0x0:0x0/750x500/webp/photo/2023/05/17/3-jenis-BTS-1371539794.jpg")
+    center/cover no-repeat;
   filter: blur(6px) saturate(1.05);
   transform: scale(1.04); /* hide blur edges */
   z-index: -2;
@@ -36,7 +38,12 @@ body {
 .overlay {
   position: fixed;
   inset: 0;
-  background: radial-gradient(1200px 600px at 50% 50%, rgba(255, 255, 255, 0.18), transparent 60%), rgba(255, 255, 255, 0.06);
+  background: radial-gradient(
+      1200px 600px at 50% 50%,
+      rgba(255, 255, 255, 0.18),
+      transparent 60%
+    ),
+    rgba(255, 255, 255, 0.06);
   z-index: -1;
 }
 
@@ -54,15 +61,20 @@ main {
   border-radius: 28px;
   -webkit-backdrop-filter: blur(14px) saturate(140%);
   backdrop-filter: blur(14px) saturate(140%);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
 }
 
 .brand {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
-  margin-bottom: 10px;
+}
+.brand-logo {
+  max-width: 100px;
+  height: auto;
+  display: block;
+  margin: 0 auto 0 auto;
 }
 .brand .wordmark {
   font-weight: 800;
@@ -81,7 +93,7 @@ main {
 }
 
 h1 {
-  margin: 18px 0 4px;
+  margin: 0 0 4px;
   font-size: 40px;
   line-height: 1.1;
   text-align: center;

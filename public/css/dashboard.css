@@ -124,6 +124,13 @@ main {
   overflow: auto;
 }
 
+.brand-logo {
+  max-width: 100px;
+  height: auto;
+  display: block;
+  margin: 0 auto 0 auto;
+}
+
 .section {
   display: none;
   animation: fade 180ms ease-out;

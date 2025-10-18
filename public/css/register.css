@@ -68,8 +68,12 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
-  margin-bottom: 10px;
+}
+.brand-logo {
+  max-width: 100px;
+  height: auto;
+  display: block;
+  margin: 0 auto 0 auto;
 }
 .brand .wordmark {
   font-weight: 800;
@@ -88,7 +92,7 @@ main {
 }
 
 h1 {
-  margin: 18px 0 4px;
+  margin: 0 0 4px;
   font-size: 40px;
   line-height: 1.1;
   text-align: center;
